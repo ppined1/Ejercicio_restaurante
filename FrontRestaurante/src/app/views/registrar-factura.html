@@ -1,0 +1,65 @@
+<h3>{{titulo}}</h3>
+<hr/>
+
+<form #formFactura="ngForm" class="col-lg-6" id="form-factura" (ngSubmit)="onSubmit()">
+<label>Cliente</label> 
+<select name="cliente" #mesa="ngModel" class="form-control" required  [(ngModel)]="factura.cliente">
+     <option *ngFor="let cliente of clientes" [ngValue]="cliente">
+       {{cliente.nombre + ' '+ cliente.apellido1 + ' ' + cliente.apellido2 }}
+     </option>
+</select>
+
+<label>Camarero</label> 
+<select name="camarero" #mesa="ngModel" class="form-control" required  [(ngModel)]="factura.camarero">
+     <option *ngFor="let camarero of camareros" [ngValue]="camarero">
+       {{camarero.nombre + ' '+ camarero.apellido1 + ' ' + camarero.apellido2 }}
+     </option>
+</select>
+
+
+<label>Mesa</label> 
+<select name="mesa" #mesa="ngModel" class="form-control" required  [(ngModel)]="factura.mesa">
+     <option *ngFor="let mesa of mesas" [ngValue]="mesa">{{mesa.ubicacion}} capacidad:{{mesa.numMaxComensa}} personas
+     </option>
+</select>
+
+<label>Detalle</label>
+<br/>
+<div *ngFor="let detalleFactura of factura.detalleFacturaList; let i = index" [attr.data-index]="i" >
+
+<div>
+<label>Cocinero</label>
+<select name="cocinero"  #cocinero="ngModel" class="form-control" required [(ngModel)]="factura.detalleFacturaList[i].cocinero">
+     <option *ngFor="let cocinero of cocineros"  [ngValue]="cocinero">
+       {{cocinero.nombre + ' '+ cocinero.apellido1 + ' ' + cocinero.apellido2 }}
+     </option>
+</select>
+</div>
+
+<div>
+<label>Plato
+    <span *ngIf="!plato.valid && plato.touched" class="label label-danger">El plato es obligatorio</span>
+ </label>  
+ <input  type="text"  name="plato"  class="form-control" required #plato="ngModel" [(ngModel)]="factura.detalleFacturaList[i].plato"/>
+ </div>
+
+<div>
+ <label>Importe
+<span *ngIf="!importe.valid && importe.touched" class="label label-danger">El precio no es correcto</span>
+ </label>
+
+ <input  type="text" class="form-control"  name="importe"  required 
+  pattern="[0-9]+" #importe="ngModel" [(ngModel)]="factura.detalleFacturaList[i].importe"/>
+</div>
+</div>
+
+
+ <br/>
+ <a (click)='agregarPlato()' class="btn btn-md btn-danger">Agregar plato</a>
+
+ <input type="submit" value="{{titulo}}" class="btn btn-success" [disabled]="!formFactura.form.valid" />
+
+
+</form>
+
+         
